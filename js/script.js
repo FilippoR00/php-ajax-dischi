@@ -3,13 +3,12 @@ const app = new Vue({
     data: {
         database: [],
         fullyCharged: false,
-        selectedGenre: '',
-        selectedAuth: '',
         genreSelected: '',
         authSelected: ''
     },
     created() {
-    axios.get('./index.php')
+        if(this.authSelected == '' && this.genreSelected == '' ){
+            axios.get('./index.php')
             .then((response) => {
                 this.database = response.data;
                 if (this.database.length == 10) {
@@ -19,26 +18,35 @@ const app = new Vue({
             .catch(function (error) {
                 console.log(error);
             });
+        }
     },
     methods: {
-        searchGenre(payload){
-            this.selectedGenre = payload;
-        },
-        searchAuth(payload){
-            this.selectedAuth = payload;
-        },
-    },
-    computed: {
-        songFiltered() {
-            // let array = this.song.filter((elm) => {
-            //     return (elm.genre.toLowerCase().includes(this.selectedGenre.toLowerCase()) && elm.author.toLowerCase().includes(this.selectedAuth.toLowerCase()));
-            // });
-            // return array;
-
-            let array = this.database.filter((item) => {
-                return item.genre.toLowerCase().includes(this.genreSelected.toLowerCase()) && item.author.toLowerCase().includes(this.authSelected.toLowerCase());
-            });
-            return array;
+        checkArray(){
+            if (this.authSelected != '' && this.genreSelected == '') {
+                axios.get('./index.php?author=' + this.authSelected)
+                    .then((response) => {
+                        this.database = response.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            } else if (this.authSelected == '' && this.genreSelected != ''){
+                axios.get('./index.php?genre=' + this.genreSelected)
+                    .then((response) => {
+                        this.database = response.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            } else if (this.authSelected != '' && this.genreSelected != '') {
+                axios.get('./index.php?genre=' + this.genreSelected + "&author=" + this.authSelected)
+                    .then((response) => {
+                        this.database = response.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
         }
-    }
+    },
 });

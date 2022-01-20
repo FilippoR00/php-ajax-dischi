@@ -72,7 +72,27 @@
         ]
     ];
 
+    function getArray($value){
+        return strstr($value["genre"], $_GET['genre']) && strstr(preg_replace("/ /", "", strtolower($value["author"])), preg_replace("/ /", "", strtolower($_GET['author'])));
+    }
+    function getArrayGenre($value){
+        return strstr($value["genre"], $_GET['genre']);
+    }
+    function getArrayAuth($value){
+        return strstr(preg_replace("/ /", "", strtolower($value["author"])), preg_replace("/ /", "", strtolower($_GET['author'])));
+    }
+    
+
+    if( isset($_GET['genre']) && isset($_GET['author'])){
+        $database = array_filter($database, "getArray");
+    } else if(isset($_GET['genre']) && !isset($_GET['author'])) {
+        $database = array_filter($database, "getArrayGenre");
+    } else if (!isset($_GET['genre']) && isset($_GET['author'])) {
+        $database = array_filter($database, "getArrayAuth");
+    }
+
     header('Content-Type: application/json');
 
     echo json_encode($database);
+
 ?>

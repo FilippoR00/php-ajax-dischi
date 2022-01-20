@@ -21,7 +21,7 @@
                 <div class="search_bar">
                     <form class="my-3">
                         <span>Seleziona il genere: </span>
-                        <select name="Genre" v-model="genreSelected">
+                        <select name="Genre" v-model="genreSelected" @change="checkArray">
                             <option value="Rock">Rock</option>
                             <option value="Pop">Pop</option>
                             <option value="Jazz">Jazz</option>
@@ -30,7 +30,7 @@
                     </form>
                     <form class="my-3">
                         <span>Seleziona l'artista: </span>
-                        <select name="Auth" v-model="authSelected">
+                        <select name="Auth" v-model="authSelected" @change="checkArray">
                             <option value="Bon Jovi">Bon Jovi</option>
                             <option value="Queen">Queen</option>
                             <option value="Sting">Sting</option>
@@ -46,7 +46,7 @@
                 </div>
                 <div class="loading-msg" v-if="!fullyCharged">Loading..</div>
                 <div class="row" v-if="fullyCharged">
-                    <div class="card_box" v-for="(track, index) in songFiltered" :key="index">
+                    <div class="card_box" v-for="(track, index) in database" :key="index">
                         <div class="music_card">
                             <img :src="track.poster" :alt="track.title">
                             <div class="title">{{track.title}}</div>
