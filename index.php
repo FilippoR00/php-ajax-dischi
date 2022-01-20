@@ -73,10 +73,10 @@
     ];
 
     function getArray($value){
-        return strstr($value["genre"], $_GET['genre']) && strstr(preg_replace("/ /", "", strtolower($value["author"])), preg_replace("/ /", "", strtolower($_GET['author'])));
+        return strstr(preg_replace("/ /", "", strtolower($value["genre"])), preg_replace("/ /", "", strtolower($_GET['genre']))) && strstr(preg_replace("/ /", "", strtolower($value["author"])), preg_replace("/ /", "", strtolower($_GET['author'])));
     }
     function getArrayGenre($value){
-        return strstr($value["genre"], $_GET['genre']);
+        return strstr(preg_replace("/ /", "", strtolower($value["genre"])), preg_replace("/ /", "", strtolower($_GET['genre'])));
     }
     function getArrayAuth($value){
         return strstr(preg_replace("/ /", "", strtolower($value["author"])), preg_replace("/ /", "", strtolower($_GET['author'])));
